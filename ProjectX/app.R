@@ -140,6 +140,39 @@ server <- function(input, output) {
         world_lng = -100.2551
         world_view = 4
         
+        if(input$World_Continent == 'North America') {
+            world_lat = 40.5260
+            world_lng = -100.2551
+            world_view = 4
+            cont <- "Americas"
+        } else if (input$World_Continent == 'South America') {
+            world_lat = 0
+            world_lng = -55.4915
+            world_view = 4
+            cont <- "Americas"
+        }  else if (input$World_Continent == 'Africa') {
+            world_lat = 8.7832
+            world_lng = 34.5085
+            world_view = 3
+        }  else if (input$World_Continent == 'Europe') {
+            world_lat = 54.5260
+            world_lng = 15.2551
+            world_view = 4
+        }  else if (input$World_Continent == 'Asia') {
+            world_lat = 34.0479
+            world_lng = 100.6197
+            world_view = 3
+        }  else if (input$World_Continent == 'Oceania') {
+            world_lat = -22.7359
+            world_lng = 140.0188
+            world_view = 4
+        } else if (input$World_Continent == 'Antarctica') {
+            world_lat = -82.578056
+            world_lng = 49.174694
+            world_view = 3
+        }
+        
+        
         map <- leaflet(data)  %>%
             
             addProviderTiles(
@@ -183,9 +216,9 @@ server <- function(input, output) {
         
     })
     
-    observe({
+    observeEvent(input$World_Continent, {
         
-        input$World_Continent
+        
         
         world_lat = 40.5260
         world_lng = -100.2551
