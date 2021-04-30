@@ -136,9 +136,9 @@ server <- function(input, output) {
 
     observe({
             
-        world_lat = 48.1667
-        world_lng = 100.1667
-        world_view = 3
+        world_lat = 40.5260
+        world_lng = -100.2551
+        world_view = 4
         
         map <- leaflet(data)  %>%
             
@@ -187,8 +187,8 @@ server <- function(input, output) {
         
         input$World_Continent
         
-        world_lat = 48.1667
-        world_lng = 100.1667
+        world_lat = 40.5260
+        world_lng = -100.2551
         world_view = 4
         
         cont <- input$World_Continent
@@ -219,7 +219,7 @@ server <- function(input, output) {
             world_lat = -22.7359
             world_lng = 140.0188
             world_view = 4
-        } else if (input$World_Continent == 'Antartica') {
+        } else if (input$World_Continent == 'Antarctica') {
             world_lat = -82.578056
             world_lng = 49.174694
             world_view = 3
