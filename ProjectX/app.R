@@ -235,17 +235,19 @@ server <- function(input, output) {
         
         world_lat = 48.1667
         world_lng = 100.1667
-        world_view = 3
+        world_view = 4
+        
         cont <- input$World_Continent
+        
         if(input$World_Continent == 'North America') {
             world_lat = 40.5260
             world_lng = -100.2551
-            world_view = 3
+            world_view = 4
             cont <- "Americas"
         } else if (input$World_Continent == 'South America') {
             world_lat = 0
             world_lng = -55.4915
-            world_view = 3
+            world_view = 4
             cont <- "Americas"
         }  else if (input$World_Continent == 'Africa') {
             world_lat = 8.7832
@@ -262,10 +264,10 @@ server <- function(input, output) {
         }  else if (input$World_Continent == 'Oceania') {
             world_lat = -22.7359
             world_lng = 140.0188
-            world_view = 3
+            world_view = 4
         } else if (input$World_Continent == 'Antartica') {
-            world_lat = -69.6354154
-            world_lng = 0
+            world_lat = -82.578056
+            world_lng = 49.174694
             world_view = 3
         }
         
