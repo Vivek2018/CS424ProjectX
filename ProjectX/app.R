@@ -135,63 +135,17 @@ get_plant_popup <- function(data) {
 server <- function(input, output) {
 
     observe({
-        
-        
-        
+            
         world_lat = 48.1667
         world_lng = 100.1667
         world_view = 3
-        # cont <- input$World_Continent
-        # if(input$World_Continent == 'North America') {
-        #     world_lat = 40.5260
-        #     world_lng = -100.2551
-        #     world_view = 2
-        #     cont <- "Americas"
-        # } else if (input$World_Continent == 'South America') {
-        #     world_lat = 0
-        #     world_lng = -55.4915
-        #     world_view = 3
-        #     cont <- "Americas"
-        # }  else if (input$World_Continent == 'Africa') {
-        #     world_lat = 8.7832
-        #     world_lng = 34.5085
-        #     world_view = 3
-        # }  else if (input$World_Continent == 'Europe') {
-        #     world_lat = 54.5260
-        #     world_lng = 15.2551
-        #     world_view = 3
-        # }  else if (input$World_Continent == 'Asia') {
-        #     world_lat = 34.0479
-        #     world_lng = 100.6197
-        #     world_view = 2
-        # }  else if (input$World_Continent == 'Oceania') {
-        #     world_lat = -22.7359
-        #     world_lng = 140.0188
-        #     world_view = 3
-        # } else if (input$World_Continent == 'Antartica') {
-        #     world_lat = -69.6354154
-        #     world_lng = 0
-        #     world_view = 3
-        # }
-        # 
-        # subdata <- data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[1] %in% input$World_Energy | 'All' %in% input$World_Energy), ]
-        # 
-        # color_markers <- colorFactor(palette = colors_list, domain = subdata$primary_fuel)
-        # 
-        # if("All" %in% input$World_Energy) {
-        #     subdata <- data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & data$continent == cont, ]
-        # } else {
-        #     subdata <- data[data$primary_fuel %in% input$World_Energy & (data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & data$continent == cont,] 
-        # }
-        
-       
-        
-        
         
         map <- leaflet(data)  %>%
             
             addProviderTiles(
                 providers$CartoDB.Positron, group = "Light")   %>% 
+            addProviderTiles(
+                providers$CartoDB.Positron, group = "Dark")   %>% 
             
             setView(
                 lat = world_lat,
@@ -273,6 +227,13 @@ server <- function(input, output) {
         
         
         leafletProxy("World_Leaflet") %>% setView(lat = world_lat, lng = world_lng, zoom = world_view)
+    })
+    
+    output$AboutOut <- renderText({
+        "Created by: Vivek Bhatt\n
+         Created: 4/30/2021\n
+         Data Source: https://datasets.wri.org/dataset/globalpowerplantdatabase\n
+         Intended for visualizing the energy sources of the world."   
     })
     
     

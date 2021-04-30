@@ -1,0 +1,12 @@
+name: ProjectX
+title: ProjectX
+username:
+account: vivekb
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 4059763
+bundleId: 4541203
+url: https://vivekb.shinyapps.io/ProjectX/
+when: 1619811870.37197
+asMultiple: FALSE
+asStatic: FALSE
