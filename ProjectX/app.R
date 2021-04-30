@@ -136,28 +136,117 @@ server <- function(input, output) {
 
     observe({
         
-        subdata <- data
         
-        color_markers <- colorFactor(palette = colors_list, domain = subdata$primary_fuel)
-        
-        if("All" %in% input$World_Energy) {
-            subdata <- data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]), ]
-        } else {
-            subdata <- data[data$primary_fuel %in% input$World_Energy & (data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]),] 
-        }
         
         world_lat = 48.1667
         world_lng = 100.1667
         world_view = 3
+        # cont <- input$World_Continent
+        # if(input$World_Continent == 'North America') {
+        #     world_lat = 40.5260
+        #     world_lng = -100.2551
+        #     world_view = 2
+        #     cont <- "Americas"
+        # } else if (input$World_Continent == 'South America') {
+        #     world_lat = 0
+        #     world_lng = -55.4915
+        #     world_view = 3
+        #     cont <- "Americas"
+        # }  else if (input$World_Continent == 'Africa') {
+        #     world_lat = 8.7832
+        #     world_lng = 34.5085
+        #     world_view = 3
+        # }  else if (input$World_Continent == 'Europe') {
+        #     world_lat = 54.5260
+        #     world_lng = 15.2551
+        #     world_view = 3
+        # }  else if (input$World_Continent == 'Asia') {
+        #     world_lat = 34.0479
+        #     world_lng = 100.6197
+        #     world_view = 2
+        # }  else if (input$World_Continent == 'Oceania') {
+        #     world_lat = -22.7359
+        #     world_lng = 140.0188
+        #     world_view = 3
+        # } else if (input$World_Continent == 'Antartica') {
+        #     world_lat = -69.6354154
+        #     world_lng = 0
+        #     world_view = 3
+        # }
+        # 
+        # subdata <- data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[1] %in% input$World_Energy | 'All' %in% input$World_Energy), ]
+        # 
+        # color_markers <- colorFactor(palette = colors_list, domain = subdata$primary_fuel)
+        # 
+        # if("All" %in% input$World_Energy) {
+        #     subdata <- data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & data$continent == cont, ]
+        # } else {
+        #     subdata <- data[data$primary_fuel %in% input$World_Energy & (data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & data$continent == cont,] 
+        # }
         
+       
+        
+        
+        
+        map <- leaflet(data)  %>%
+            
+            addProviderTiles(
+                providers$CartoDB.Positron, group = "Light")   %>% 
+            
+            setView(
+                lat = world_lat,
+                lng = world_lng,
+                zoom = world_view
+            ) %>%
+            
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[1] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[1], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[1]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[1] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[1], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[2] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[2], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[2]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[2] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[2], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[3] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[3], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[3]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[3] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[3], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[4] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[4], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[4]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[4] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[4], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[5] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[5], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[5]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[5] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[5], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[6] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[6], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[6]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[6] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[6], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[7] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[7], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[7]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[7] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[7], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[8] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[8], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[8]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[8] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[8], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[9] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[9], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[9]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[9] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[9], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[10] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[10], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[10]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[10] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[10], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[11] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[11], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[11]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[11] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[11], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[12] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[12], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[12]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[12] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[12], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[13] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[13], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[13]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[13] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[13], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[14] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[14], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[14]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[14] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[14], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            addCircleMarkers(data=data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[15] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[15], ],  lng=~longitude, lat=~latitude, color = source_colors[[sources[15]]], group = ~primary_fuel, popup=get_plant_popup(data[(data$capacity_mw <= input$World_Production[2] & data$capacity_mw >= input$World_Production[1]) & (sources[15] %in% input$World_Energy | 'All' %in% input$World_Energy) & data$primary_fuel == sources[15], ]), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
+            
+            
+            
+            
+            
+            
+            addLegend("bottomright", colors = colors_list,  labels=sources, title="Energy Source") 
+        
+        
+        output$World_Leaflet <- renderLeaflet({
+            map
+        })
+        
+    })
+    
+    observe({
+        
+        input$World_Continent
+        
+        world_lat = 48.1667
+        world_lng = 100.1667
+        world_view = 3
+        cont <- input$World_Continent
         if(input$World_Continent == 'North America') {
-            world_lat = 48.1667
-            world_lng = 100.1667
+            world_lat = 40.5260
+            world_lng = -100.2551
             world_view = 3
+            cont <- "Americas"
         } else if (input$World_Continent == 'South America') {
-            world_lat = 8.7832
-            world_lng = 55.4915
+            world_lat = 0
+            world_lng = -55.4915
             world_view = 3
+            cont <- "Americas"
         }  else if (input$World_Continent == 'Africa') {
             world_lat = 8.7832
             world_lng = 34.5085
@@ -165,44 +254,23 @@ server <- function(input, output) {
         }  else if (input$World_Continent == 'Europe') {
             world_lat = 54.5260
             world_lng = 15.2551
-            world_view = 3
+            world_view = 4
         }  else if (input$World_Continent == 'Asia') {
-            world_lat = 45.4507
-            world_lng = 68.8319
+            world_lat = 34.0479
+            world_lng = 100.6197
             world_view = 3
         }  else if (input$World_Continent == 'Oceania') {
-            world_lat = 22.7359
+            world_lat = -22.7359
             world_lng = 140.0188
             world_view = 3
         } else if (input$World_Continent == 'Antartica') {
-            world_lat = 82.8628
-            world_lng = 135
+            world_lat = -69.6354154
+            world_lng = 0
             world_view = 3
         }
         
         
-        
-        map <- leaflet(subdata)  %>%
-            
-            addProviderTiles(
-                providers$CartoDB.Positron, group = "Light")   %>% 
-            
-            setView(
-                lng = world_lat,
-                lat = world_lng,
-                zoom = world_view
-            ) %>%
-            
-            addCircleMarkers(data=subdata,  lng=~longitude, lat=~latitude, group = ~primary_fuel, popup=get_plant_popup(subdata), fillOpacity = 0.3, stroke = FALSE, radius = ~capacity_mw/250, weight = 1) %>%
-            
-            addLegend("bottomright", colors = source_colors,  labels=sources, title="Energy Source") 
-        
-        
-        output$World_Leaflet <- renderLeaflet({
-            map
-        })
-      
-        
+        leafletProxy("World_Leaflet") %>% setView(lat = world_lat, lng = world_lng, zoom = world_view)
     })
     
     
